@@ -2,7 +2,6 @@
 
 Boilerplate for creating WebVR scenes using A-Frame.
 
-
 ## Getting Started
 
 There are two easy options for obtaining this A-Frame scene. It's then up to you to make it your own!
@@ -14,21 +13,27 @@ There are two easy options for obtaining this A-Frame scene. It's then up to you
 After you have __[downloaded and extracted this `.zip` file](https://github.com/aframevr/aframe-boilerplate/archive/master.zip)__ containing the contents of this repo, open the resulting directory, and you'll be have your scene ready in these few steps:
 
     npm install && npm start
+    open http://localhost:3000/
 
 <hr>
 
-### <small><sup>Option 2:</sup> Fork this Git repo 🍴
+### <small><sup>Option 2:</sup> Fork this Git repo 🍴🐙
 
 Alternatively, you can __[fork this repo](https://github.com/aframevr/aframe-boilerplate/fork)__ to get started, if you'd like to maintain a Git workflow.
 
 After you have __[forked this repo](https://github.com/aframevr/aframe-boilerplate/fork)__, clone a copy of your fork locally and you'll be have your scene ready in these few steps:
 
-    git clone git@github.com:your_username/aframe-boilerplate.git
-    cd aframe-boilerplate && npm install && npm start
+    git clone https://github.com/aframevr/aframe-boilerplate.git
+    cd aframe-boilerplate && rm -rf .git && npm install && npm start
+    open http://localhost:3000/
 
-### <small><sup>Option 3:</sup> Fork this CodePen example
+> :iphone: **Mobile pro tip:** Upon starting the development server, the URL will be logged to the console. Load that URL from a browser on your mobile device. (If your mobile phone and computer are not on the same LAN, consider using [ngrok](https://ngrok.com/) for local development and testing. [Browsersync](https://www.browsersync.io/) is also worth a gander.)
 
-Or, you can simply __[fork this CodePen example](http://codepen.io/team/mozvr/pen/2ac060c354546201f3337b83fbdcd110?editors=100)__ to dive right in. Enjoy!
+<hr>
+
+### <small><sup>Option 3:</sup> Fork this CodePen example 🍴💾✒️
+
+Or, you can simply __[fork this CodePen example](http://codepen.io/team/mozvr/pen/BjygdO?editors=100)__ to dive right in. Enjoy!
 
 
 ## Publishing your scene
