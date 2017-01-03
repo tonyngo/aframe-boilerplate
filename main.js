@@ -4,6 +4,10 @@ $(function() {
     var videoSelect = document.querySelector('select#videoSource');
     var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
 
+    var handleError = function(error) {
+        console.log('navigator.getUserMedia error: ', error);
+    };
+
     var gotDevices = function(deviceInfos) {
         // Handles being called several times to update labels. Preserve values.
         var values = selectors.map(function(select) {
@@ -80,37 +84,40 @@ $(function() {
         }, 1000);
     };
 
-    var start = function() {
-        console.log($audioSelect);
-        var audioSourceId = $audioSelect.val();
-        var videoSourceId = $videoSelect.val();
-
-        navigator.getUserMedia = navigator.getUserMedia ||
-            navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-        navigator.mediaDevices.getUserMedia({
-            audio: {
-                deviceId: audioSourceId
-            },
-            video: {
-                deviceId: videoSourceId
-            }
-        })
-        .then(function(stream) {
-            var video = document.createElement('video');
-            video.src = URL.createObjectURL(stream);
-            video.addEventListener('loadedmetadata', function() {
-                initCanvas(video);
-            });
-            video.play();
+    var gotStream = function(stream) {
+        var video = document.createElement('video');
+        video.src = URL.createObjectURL(stream);
+        video.addEventListener('loadedmetadata', function() {
+            initCanvas(video);
         });
+        video.play();
+
+        return navigator.mediaDevices.enumerateDevices();
     };
 
-    var $audioSelect = $('#audioSource');
-    var $videoSelect = $('#videoSource');
+    var start = function() {
+        if (window.stream) {
+            window.stream.getTracks().forEach(function(track) {
+                track.stop();
+            });
+        }
 
-    $audioSelect.change(start);
-    $videoSelect.change(start);
+        var audioSource = audioInputSelect.value;
+        var videoSource = videoSelect.value;
+        var constraints = {
+            audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
+            video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+        };
 
-    navigator.mediaDevices.enumerateDevices().then(gotDevices);
+        navigator.mediaDevices.getUserMedia(constraints)
+        .then(gotStream).then(gotDevices).catch(handleError);
+    };
+
+    audioInputSelect.onchange = start;
+    // audioOutputSelect.onchange = changeAudioDestination;
+    videoSelect.onchange = start;
+
+    navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
+
+    start();
 });
