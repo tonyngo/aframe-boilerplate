@@ -16,10 +16,16 @@
             <a-assets>
                 <video id="playback" />
             </a-assets>
-            <a-sky material="src: #playback"></a-sky>
             <a-entity>
                 <a-entity camera></a-entity>
             </a-entity>
+            <a-entity
+                material="src: #playback"
+                geometry="primitive: plane; height: 10; width: 10; side: double"
+                scale="-1 1 1"
+                rotation="0 180 0"
+                position="0 0 -2"
+            ></a-entity>
         </a-scene>
     </body>
 </html>
