@@ -80,8 +80,7 @@ $(function() {
 
             var stream = canvas.captureStream(15); // build a 15 fps stream
             var video = document.getElementById('playback');
-            video.src = URL.createObjectURL(stream);
-            video.play();
+            video.srcObject = stream;
         }, 1000);
     };
 
