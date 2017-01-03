@@ -1,30 +1,24 @@
 (function(window) {
-    var gotSources = function(sourceInfos) {
-        for (var i = sourceInfos.length - 1; i >= 0; --i) {
-            var sourceInfo = sourceInfos[i];
+    var audioSelect;
+    var videoSelect;
 
-            if (sourceInfo.kind === 'video') {
-                navigator.mediaDevices.getUserMedia({
-                    video: {
-                        optional: [{
-                            sourceId: sourceInfo.id
-                        }]
-                    }
-                })
-                .then(function(stream) {
-                    var video = document.createElement('video');
-                    video.src = URL.createObjectURL(stream);
-                    video.addEventListener('loadedmetadata', function() {
-                        initCanvas(video);
-                    });
-                    video.play();
-                });
-                return;
+    var gotSources = function(sourceInfos) {
+        for (var i = 0; i !== sourceInfos.length; ++i) {
+            var sourceInfo = sourceInfos[i];
+            var option = document.createElement('option');
+            option.value = sourceInfo.id;
+            if (sourceInfo.kind === 'audio') {
+                option.text = sourceInfo.label || 'microphone ' +
+                (audioSelect.length + 1);
+                audioSelect.appendChild(option);
+            } else if (sourceInfo.kind === 'video') {
+                option.text = sourceInfo.label || 'camera ' + (videoSelect.length + 1);
+                videoSelect.appendChild(option);
             } else {
                 console.log('Some other kind of source: ', sourceInfo);
             }
         }
-    }
+    };
 
     var initCanvas = function(video) {
         var width = video.videoWidth;
@@ -62,7 +56,39 @@
         }, 1000);
     };
 
+    var start = function() {
+        var audioSource = audioSelect.value;
+        var videoSource = videoSelect.value;
+
+        navigator.mediaDevices.getUserMedia({
+            audio: {
+                optional: [{
+                    sourceId: audioSource
+                }]
+            },
+            video: {
+                optional: [{
+                    sourceId: videoSource
+                }]
+            }
+        })
+        .then(function(stream) {
+            var video = document.createElement('video');
+            video.src = URL.createObjectURL(stream);
+            video.addEventListener('loadedmetadata', function() {
+                initCanvas(video);
+            });
+            video.play();
+        });
+    };
+
     window.onload = function() {
+        audioSelect = document.querySelector('select#audioSource');
+        videoSelect = document.querySelector('select#videoSource');
+
+        audioSelect.onchange = start;
+        videoSelect.onchange = start;
+
         if (typeof MediaStreamTrack === 'undefined' ||
             typeof MediaStreamTrack.getSources === 'undefined'
         ) {
