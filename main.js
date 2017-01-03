@@ -11,6 +11,7 @@ $(function() {
                 option.text = device.label || 'camera ' + (videoSelect.length + 1);
                 $videoSelect[0].appendChild(option);
             } else {
+                alert(device.kind);
                 console.log('Some other kind of source: ', device);
             }
         });
