@@ -19,6 +19,7 @@
                     });
                     video.play();
                 });
+                return;
             } else {
                 console.log('Some other kind of source: ', sourceInfo);
             }
