@@ -1,17 +1,45 @@
 $(function() {
-    var gotDevices = function(devices) {
-        devices.forEach(function(device) {
-            var option = document.createElement('option');
-            option.value = device.id;
+    var audioInputSelect = document.querySelector('select#audioSource');
+    var audioOutputSelect = document.querySelector('select#audioOutput');
+    var videoSelect = document.querySelector('select#videoSource');
+    var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
 
-            if (device.kind === 'audioinput') {
-                option.text = device.label || 'microphone ' + (audioSelect.length + 1);
-                $audioSelect[0].appendChild(option);
-            } else if (device.kind === 'videoinput') {
-                option.text = device.label || 'camera ' + (videoSelect.length + 1);
-                $videoSelect[0].appendChild(option);
+    var gotDevices = function(deviceInfos) {
+        // Handles being called several times to update labels. Preserve values.
+        var values = selectors.map(function(select) {
+            return select.value;
+        });
+
+        selectors.forEach(function(select) {
+            while (select.firstChild) {
+                select.removeChild(select.firstChild);
+            }
+        });
+
+        for (var i = 0; i !== deviceInfos.length; ++i) {
+            var deviceInfo = deviceInfos[i];
+            var option = document.createElement('option');
+            option.value = deviceInfo.deviceId;
+            if (deviceInfo.kind === 'audioinput') {
+                option.text = deviceInfo.label ||
+                    'microphone ' + (audioInputSelect.length + 1);
+                audioInputSelect.appendChild(option);
+            } else if (deviceInfo.kind === 'audiooutput') {
+                option.text = deviceInfo.label || 'speaker ' +
+                    (audioOutputSelect.length + 1);
+                audioOutputSelect.appendChild(option);
+            } else if (deviceInfo.kind === 'videoinput') {
+                option.text = deviceInfo.label || 'camera ' + (videoSelect.length + 1);
+                videoSelect.appendChild(option);
             } else {
-                console.log('Some other kind of source: ', device);
+                console.log('Some other kind of source/device: ', deviceInfo);
+            }
+        }
+        selectors.forEach(function(select, selectorIndex) {
+            if (Array.prototype.slice.call(select.childNodes).some(function(n) {
+                return n.value === values[selectorIndex];
+            })) {
+                select.value = values[selectorIndex];
             }
         });
     };
