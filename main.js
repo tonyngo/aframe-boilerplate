@@ -1,4 +1,21 @@
 $(function() {
+    var gotDevices = function(devices) {
+        devices.forEach(function(device) {
+            var option = document.createElement('option');
+            option.value = device.id;
+
+            if (device.kind === 'audioinput') {
+                option.text = device.label || 'microphone ' + (audioSelect.length + 1);
+                $audioSelect[0].appendChild(option);
+            } else if (device.kind === 'videoinput') {
+                option.text = device.label || 'camera ' + (videoSelect.length + 1);
+                $videoSelect[0].appendChild(option);
+            } else {
+                console.log('Some other kind of source: ', device);
+            }
+        });
+    };
+
     var initCanvas = function(video) {
         var width = video.videoWidth;
         var height = video.videoHeight;
@@ -67,21 +84,5 @@ $(function() {
     $audioSelect.change(start);
     $videoSelect.change(start);
 
-    navigator.mediaDevices.enumerateDevices()
-    .then(function(devices) {
-        devices.forEach(function(device) {
-            var option = document.createElement('option');
-            option.value = device.id;
-
-            if (device.kind === 'audioinput') {
-                option.text = device.label || 'microphone ' + (audioSelect.length + 1);
-                $audioSelect[0].appendChild(option);
-            } else if (device.kind === 'videoinput') {
-                option.text = device.label || 'camera ' + (videoSelect.length + 1);
-                $videoSelect[0].appendChild(option);
-            } else {
-                console.log('Some other kind of source: ', device);
-            }
-        });
-    })
+    navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
 });
