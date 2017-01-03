@@ -2,18 +2,19 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="styles.css" />
+        <script src="jquery-3.1.1.min.js"></script>
         <script src="aframe.min.js"></script>
         <script src="main.js"></script>
     </head>
     <body>
         <select id="audioSource"></select>
         <select id="videoSource"></select>
-        
+
         <canvas id="canvas"></canvas>
-        <a-assets>
-            <video id="playback" />
-        </a-assets>
         <a-scene stats="false">
+            <a-assets>
+                <video id="playback" />
+            </a-assets>
             <a-sky material="src: #playback"></a-sky>
             <a-entity>
                 <a-entity camera></a-entity>

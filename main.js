@@ -1,7 +1,4 @@
-(function(window) {
-    var audioSelect;
-    var videoSelect;
-
+$(function() {
     var gotSources = function(sourceInfos) {
         for (var i = 0; i !== sourceInfos.length; ++i) {
             var sourceInfo = sourceInfos[i];
@@ -10,10 +7,10 @@
             if (sourceInfo.kind === 'audio') {
                 option.text = sourceInfo.label || 'microphone ' +
                 (audioSelect.length + 1);
-                audioSelect.appendChild(option);
+                $audioSelect[0].appendChild(option);
             } else if (sourceInfo.kind === 'video') {
                 option.text = sourceInfo.label || 'camera ' + (videoSelect.length + 1);
-                videoSelect.appendChild(option);
+                $videoSelect[0].appendChild(option);
             } else {
                 console.log('Some other kind of source: ', sourceInfo);
             }
@@ -57,18 +54,22 @@
     };
 
     var start = function() {
-        var audioSource = audioSelect.value;
-        var videoSource = videoSelect.value;
+        console.log($audioSelect);
+        var audioSourceId = $audioSelect.val();
+        var videoSourceId = $videoSelect.val();
+
+        navigator.getUserMedia = navigator.getUserMedia ||
+            navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
         navigator.mediaDevices.getUserMedia({
             audio: {
                 optional: [{
-                    sourceId: audioSource
+                    sourceId: audioSourceId
                 }]
             },
             video: {
                 optional: [{
-                    sourceId: videoSource
+                    sourceId: videoSourceId
                 }]
             }
         })
@@ -82,22 +83,17 @@
         });
     };
 
-    window.onload = function() {
-        audioSelect = document.querySelector('select#audioSource');
-        videoSelect = document.querySelector('select#videoSource');
+    var $audioSelect = $('#audioSource');
+    var $videoSelect = $('#videoSource');
 
-        audioSelect.onchange = start;
-        videoSelect.onchange = start;
+    $audioSelect.change(start);
+    $videoSelect.change(start);
 
-        if (typeof MediaStreamTrack === 'undefined' ||
-            typeof MediaStreamTrack.getSources === 'undefined'
-        ) {
-            alert('This browser does not support MediaStreamTrack.\n\nTry Chrome.');
-        } else {
-            MediaStreamTrack.getSources(gotSources);
-        }
-    };
-
-    navigator.getUserMedia = navigator.getUserMedia ||
-        navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-})(window);
+    if (typeof MediaStreamTrack === 'undefined' ||
+        typeof MediaStreamTrack.getSources === 'undefined'
+    ) {
+        alert('This browser does not support MediaStreamTrack.\n\nTry Chrome.');
+    } else {
+        MediaStreamTrack.getSources(gotSources);
+    }
+});
