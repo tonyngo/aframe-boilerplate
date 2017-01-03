@@ -1,4 +1,5 @@
 $(function() {
+    var videoElement = document.querySelector('video');
     var audioInputSelect = document.querySelector('select#audioSource');
     var audioOutputSelect = document.querySelector('select#audioOutput');
     var videoSelect = document.querySelector('select#videoSource');
@@ -85,8 +86,8 @@ $(function() {
     };
 
     var gotStream = function(stream) {
-        var video = document.createElement('video');
-        video.src = URL.createObjectURL(stream);
+        window.stream = stream; // make stream available to console
+        videoElement.srcObject = stream;
         video.addEventListener('loadedmetadata', function() {
             initCanvas(video);
         });
