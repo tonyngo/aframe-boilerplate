@@ -4,6 +4,7 @@
             var sourceInfo = sourceInfos[i];
 
             if (sourceInfo.kind === 'video') {
+                alert(sourceInfo.id);
                 navigator.mediaDevices.getUserMedia({
                     video: {
                         optional: [{
