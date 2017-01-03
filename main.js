@@ -1,22 +1,4 @@
 $(function() {
-    var gotSources = function(sourceInfos) {
-        for (var i = 0; i !== sourceInfos.length; ++i) {
-            var sourceInfo = sourceInfos[i];
-            var option = document.createElement('option');
-            option.value = sourceInfo.id;
-            if (sourceInfo.kind === 'audio') {
-                option.text = sourceInfo.label || 'microphone ' +
-                (audioSelect.length + 1);
-                $audioSelect[0].appendChild(option);
-            } else if (sourceInfo.kind === 'video') {
-                option.text = sourceInfo.label || 'camera ' + (videoSelect.length + 1);
-                $videoSelect[0].appendChild(option);
-            } else {
-                console.log('Some other kind of source: ', sourceInfo);
-            }
-        }
-    };
-
     var initCanvas = function(video) {
         var width = video.videoWidth;
         var height = video.videoHeight;
@@ -63,14 +45,10 @@ $(function() {
 
         navigator.mediaDevices.getUserMedia({
             audio: {
-                optional: [{
-                    sourceId: audioSourceId
-                }]
+                deviceId: audioSourceId
             },
             video: {
-                optional: [{
-                    sourceId: videoSourceId
-                }]
+                deviceId: videoSourceId
             }
         })
         .then(function(stream) {
@@ -89,11 +67,21 @@ $(function() {
     $audioSelect.change(start);
     $videoSelect.change(start);
 
-    if (typeof MediaStreamTrack === 'undefined' ||
-        typeof MediaStreamTrack.getSources === 'undefined'
-    ) {
-        alert('This browser does not support MediaStreamTrack.\n\nTry Chrome.');
-    } else {
-        MediaStreamTrack.getSources(gotSources);
-    }
+    navigator.mediaDevices.enumerateDevices()
+    .then(function(devices) {
+        devices.forEach(function(device) {
+            var option = document.createElement('option');
+            option.value = device.id;
+
+            if (device.kind === 'audioinput') {
+                option.text = device.label || 'microphone ' + (audioSelect.length + 1);
+                $audioSelect[0].appendChild(option);
+            } else if (device.kind === 'videoinput') {
+                option.text = device.label || 'camera ' + (videoSelect.length + 1);
+                $videoSelect[0].appendChild(option);
+            } else {
+                console.log('Some other kind of source: ', device);
+            }
+        });
+    })
 });
