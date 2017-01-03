@@ -1,9 +1,7 @@
 $(function() {
     var videoElement = document.querySelector('video');
-    var audioInputSelect = document.querySelector('select#audioSource');
-    var audioOutputSelect = document.querySelector('select#audioOutput');
     var videoSelect = document.querySelector('select#videoSource');
-    var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
+    var selectors = [videoSelect];
 
     var handleError = function(error) {
         console.log('navigator.getUserMedia error: ', error);
@@ -25,15 +23,7 @@ $(function() {
             var deviceInfo = deviceInfos[i];
             var option = document.createElement('option');
             option.value = deviceInfo.deviceId;
-            if (deviceInfo.kind === 'audioinput') {
-                option.text = deviceInfo.label ||
-                    'microphone ' + (audioInputSelect.length + 1);
-                audioInputSelect.appendChild(option);
-            } else if (deviceInfo.kind === 'audiooutput') {
-                option.text = deviceInfo.label || 'speaker ' +
-                    (audioOutputSelect.length + 1);
-                audioOutputSelect.appendChild(option);
-            } else if (deviceInfo.kind === 'videoinput') {
+            if (deviceInfo.kind === 'videoinput') {
                 option.text = deviceInfo.label || 'camera ' + (videoSelect.length + 1);
                 videoSelect.appendChild(option);
             } else {
@@ -103,10 +93,8 @@ $(function() {
             });
         }
 
-        var audioSource = audioInputSelect.value;
         var videoSource = videoSelect.value;
         var constraints = {
-            audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
             video: {deviceId: videoSource ? {exact: videoSource} : undefined}
         };
 
@@ -114,11 +102,7 @@ $(function() {
         .then(gotStream).then(gotDevices).catch(handleError);
     };
 
-    audioInputSelect.onchange = start;
-    // audioOutputSelect.onchange = changeAudioDestination;
     videoSelect.onchange = start;
 
     navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
-
-    start();
 });
