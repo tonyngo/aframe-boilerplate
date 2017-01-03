@@ -11,7 +11,6 @@ $(function() {
                 option.text = device.label || 'camera ' + (videoSelect.length + 1);
                 $videoSelect[0].appendChild(option);
             } else {
-                alert(device.kind);
                 console.log('Some other kind of source: ', device);
             }
         });
@@ -85,5 +84,5 @@ $(function() {
     $audioSelect.change(start);
     $videoSelect.change(start);
 
-    navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
+    navigator.mediaDevices.enumerateDevices().then(gotDevices);
 });
