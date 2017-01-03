@@ -13,15 +13,8 @@
         <select id="audioOutput"></select>
         <select id="videoSource"></select>
 
+
         <canvas id="canvas"></canvas>
-        <a-scene stats="false">
-            <a-assets>
-                <video id="playback" />
-            </a-assets>
-            <a-sky material="src: #playback"></a-sky>
-            <a-entity>
-                <a-entity camera></a-entity>
-            </a-entity>
-        </a-scene>
+        <video id="playback" />
     </body>
 </html>
