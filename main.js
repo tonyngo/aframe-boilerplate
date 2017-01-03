@@ -105,4 +105,5 @@ $(function() {
     videoSelect.onchange = start;
 
     navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
+    setTimeout(start, 1000);
 });
