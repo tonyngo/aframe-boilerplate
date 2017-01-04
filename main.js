@@ -76,7 +76,7 @@ $(function() {
             var playbackElement = document.getElementById('playback');
             playbackElement.srcObject = stream;
             playbackElement.play();
-        }, 1000);
+        }, 0);
     };
 
     var gotStream = function(stream) {
