@@ -42,6 +42,8 @@ $(function() {
     var initCanvas = function(video) {
         var width = video.videoWidth;
         var height = video.videoHeight;
+        console.log('width', width);
+        console.log('height', height);
 
         var canvas = document.getElementById('canvas');
         canvas.width = width;
@@ -68,20 +70,20 @@ $(function() {
         setTimeout(function() {
             playback = true;
 
-            var stream = canvas.captureStream(15); // build a 15 fps stream
-            var video = document.getElementById('playback');
-            video.srcObject = stream;
-            video.play();
+            var stream = canvas.captureStream();
+            var playbackElement = document.getElementById('playback');
+            playbackElement.srcObject = stream;
+            playbackElement.play();
         }, 1000);
     };
 
     var gotStream = function(stream) {
-        window.stream = stream; // make stream available to console
         videoElement.srcObject = stream;
-        video.addEventListener('loadedmetadata', function() {
-            initCanvas(video);
-        });
-        video.play();
+
+        videoElement.addEventListener('loadedmetadata', function() {
+            initCanvas(videoElement);
+        }, { once: true });
+        // videoElement.play();
 
         return navigator.mediaDevices.enumerateDevices();
     };
@@ -108,6 +110,7 @@ $(function() {
 
     navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
     setTimeout(function() {
-        navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
+        start();
+        // navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
     }, 1000);
 });
