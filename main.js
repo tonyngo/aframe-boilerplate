@@ -113,6 +113,5 @@ $(function() {
     navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
     setTimeout(function() {
         navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
-        start();
     }, 1000);
 });
