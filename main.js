@@ -52,12 +52,14 @@ $(function() {
         var playback = false;
         var bitmaps = [];
         var context = canvas.getContext('2d');
+        var $debug = $('#debug');
         var draw = function() {
             requestAnimationFrame(draw);
 
             createImageBitmap(video, 0, 0, width, height)
             .then(function(bitmap) {
                 bitmaps.push(bitmap);
+                $debug.text(bitmaps.length);
             });
 
             if (playback && bitmaps.length) {
@@ -111,5 +113,6 @@ $(function() {
     navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
     setTimeout(function() {
         navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
+        start();
     }, 1000);
 });
