@@ -39,54 +39,9 @@ $(function() {
         });
     };
 
-    var initCanvas = function(video) {
-        var width = video.videoWidth;
-        var height = video.videoHeight;
-        console.log('width', width);
-        console.log('height', height);
-
-        var canvas = document.getElementById('canvas');
-        canvas.width = width;
-        canvas.height = height;
-
-        var playback = false;
-        var bitmaps = [];
-        var context = canvas.getContext('2d');
-        var $debug = $('#debug');
-        var draw = function() {
-            requestAnimationFrame(draw);
-
-            createImageBitmap(video, 0, 0, width, height)
-            .then(function(bitmap) {
-                bitmaps.push(bitmap);
-                $debug.text(bitmaps.length);
-            });
-
-            if (playback && bitmaps.length) {
-                var bitmap = bitmaps.length > 2 ? bitmaps.shift() : bitmaps[0];
-                context.drawImage(bitmap, 0, 0, width, height);
-            }
-        };
-
-        requestAnimationFrame(draw);
-        setTimeout(function() {
-            playback = true;
-
-            var stream = canvas.captureStream();
-            var playbackElement = document.getElementById('playback');
-            playbackElement.srcObject = stream;
-            playbackElement.play();
-        }, 0);
-    };
-
     var gotStream = function(stream) {
+        window.stream = stream;
         videoElement.srcObject = stream;
-
-        videoElement.addEventListener('loadedmetadata', function() {
-            initCanvas(videoElement);
-        }, { once: true });
-        // videoElement.play();
-
         return navigator.mediaDevices.enumerateDevices();
     };
 

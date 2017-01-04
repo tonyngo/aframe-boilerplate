@@ -8,17 +8,15 @@
         <script src="main.js"></script>
     </head>
     <body>
-        <video id="video"></video>
-        <canvas id="canvas"></canvas>
         <a-scene stats="false">
             <a-assets>
-                <video id="playback" />
+                <video id="video"></video>
             </a-assets>
             <a-entity>
                 <a-entity camera></a-entity>
             </a-entity>
             <a-entity
-                material="src: #playback"
+                material="src: #video"
                 geometry="primitive: plane; height: 10; width: 10; side: double"
                 scale="-1 0.75 1"
                 rotation="0 180 0"
@@ -26,6 +24,5 @@
             ></a-entity>
         </a-scene>
         <select id="videoSource"></select>
-        <div id="debug">0</div>
     </body>
 </html>
