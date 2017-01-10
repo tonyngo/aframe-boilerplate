@@ -1,10 +1,24 @@
 {
-    "scripts": {
-        "start": "budo --live --verbose --port 3000 --open",
-        "deploy": "ghpages",
-        "ghpages": "ghpages"
-    },
-    "dependencies": {
-        "ghpages": "^0.0.8"
-    }
+  "dependencies": {
+    "gh-pages": "^0.12.0"
+  },
+  "name": "sample-vr",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "deploy": "gh-pages -d .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tonyngo/aframe-boilerplate.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tonyngo/aframe-boilerplate/issues"
+  },
+  "homepage": "https://github.com/tonyngo/aframe-boilerplate#readme",
+  "description": ""
 }
