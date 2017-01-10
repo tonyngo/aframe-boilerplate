@@ -2,25 +2,32 @@
 <html lang="en-us">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | VRSamples</title>
+    <title>VRSamples</title>
     <link rel="stylesheet" href="TemplateData/style.css">
-    <link rel="shortcut icon" href="TemplateData/favicon.ico" />
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <script src="TemplateData/UnityProgress.js"></script>
+    <link rel="stylesheet" href="css/webvr.css">
   </head>
-  <body class="template">
+  <body class="template" data-unity-width="960" data-unity-height="600" data-unity-loaded="false" data-vr-loaded="false" data-supports-vr="false">
     <p class="header"><span>Unity WebGL Player | </span>VRSamples</p>
     <div class="template-wrap clear">
-      <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="600px" width="960px"></canvas>
-      <br>
+      <div class="canvas-wrapper" style="width: 960px; height: 600px" data-vr-presentation-text="Put on your VR headset now">
+        <canvas class="emscripten" id="canvas" height="600" width="960"></canvas>
+      </div>
       <div class="logo"></div>
-      <div class="fullscreen"><img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
+      <div class="fullscreen">
+        <button id="btnVrToggle" class="btn btnVr btnVrToggle waiting" data-enter-vr-title="Enter VR" data-exit-vr-title="Exit VR" title="Enter VR">Enter VR</button>
+        <div class="vr">
+          <button id="btnVrReset" class="btn btnVr btnVrReset waiting" title="Reset View">Reset View</button>
+          <button id="btnFsEnter" class="btn btnFsEnter waiting" title="Fullscreen">Fullscreen</button>
+        </div>
+      </div>
       <div class="title">VRSamples</div>
     </div>
     <p class="footer">&laquo; created with <a href="http://unity3d.com/" title="Go to unity3d.com">Unity</a> &raquo;</p>
     <script type='text/javascript'>
   var Module = {
-    TOTAL_MEMORY: 268435456,
+    TOTAL_MEMORY: 1073741824,
     errorhandler: null,			// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
     compatibilitycheck: null,
     dataUrl: "Release/Samples.data",
@@ -31,5 +38,7 @@
 </script>
 <script src="Release/UnityLoader.js"></script>
 
+    <script src="js/three.min.js"></script>
+    <script src="js/UnityWebVRManager.js"></script>
   </body>
 </html>
