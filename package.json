@@ -1,12 +1,13 @@
 {
   "dependencies": {
-    "ghpages": "^0.0.8"
+    "gh-pages": "^0.12.0"
   },
   "name": "sample-vr",
   "version": "1.0.0",
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
+    "deploy": "gh-pages -d .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
