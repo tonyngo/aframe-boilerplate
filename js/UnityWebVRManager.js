@@ -280,6 +280,9 @@
     if (!vrPose) {
       return;
     }
+    if (vrPose.orientation === null) {
+        return;
+    }
     var quaternion = isDeprecatedAPI ? vrPose.orientation : new THREE.Quaternion().fromArray(vrPose.orientation);
     var euler = new THREE.Euler().setFromQuaternion(quaternion);
     SendMessage('WebVRCameraSet', 'euler_x', euler.x);
