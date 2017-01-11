@@ -238,6 +238,9 @@
   }
 
   function getPose () {
+    if (!vrDisplay) {
+      return;
+    }
     if (isDeprecatedAPI) {
       return vrSensor.getState();
     } else {
@@ -277,11 +280,8 @@
 
   function getVRSensorState () {
     vrPose = getPose();
-    if (!vrPose) {
+    if (!vrPose || vrPose.orientation === null) {
       return;
-    }
-    if (vrPose.orientation === null) {
-        return;
     }
     var quaternion = isDeprecatedAPI ? vrPose.orientation : new THREE.Quaternion().fromArray(vrPose.orientation);
     var euler = new THREE.Euler().setFromQuaternion(quaternion);
